@@ -12,6 +12,7 @@ class Seller
 
     public $id;
     public $name;
+    public $email;
     public $password;
     public $image;
     public $address;
@@ -23,7 +24,7 @@ class Seller
     }
 
     // validating if params exists or not
-    public function valideate_params($value)
+    public function validate_params($value)
     {
         // if (!empty($value)) {
         //     return true;
@@ -40,17 +41,19 @@ class Seller
         global $database;
 
         $this->name = trim(htmlspecialchars(strip_tags($this->name)));
+        $this->email = trim(htmlspecialchars(strip_tags($this->email)));
         $this->password = trim(htmlspecialchars(strip_tags($this->password)));
         $this->image = trim(htmlspecialchars(strip_tags($this->image)));
         $this->address = trim(htmlspecialchars(strip_tags($this->address)));
-        $this->address = trim(htmlspecialchars(strip_tags($this->description)));
+        $this->description = trim(htmlspecialchars(strip_tags($this->description)));
 
-        $sql = "INSERT INTO $this->table (name, password, image, address, description) VALUES (
+        $sql = "INSERT INTO $this->table (name, email, password, image, address, description) VALUES (
             '" .$database->escape_value($this->name). "',
+            '" .$database->escape_value($this->email). "',
             '" .$database->escape_value($this->password). "',
             '" .$database->escape_value($this->image). "',
             '" .$database->escape_value($this->address). "',
-            '" .$database->escape_value($this->address). "'
+            '" .$database->escape_value($this->description). "'
         )";
 
         $seller_saved = $database->query($sql);
@@ -63,4 +66,5 @@ class Seller
     }
 } // Class Ends
 
+// Seller object
 $seller = new Seller();
