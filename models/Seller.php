@@ -4,6 +4,7 @@ $ds = DIRECTORY_SEPARATOR;
 $base_dir = realpath(dirname(__FILE__). $ds . '..') . $ds;
 
 require_once("{$base_dir}includes{$ds}Database.php"); // Including database
+require_once("{$base_dir}includes{$ds}Bcrypt.php"); // Including Bcrypt
 
 // Class Seller Start
 class Seller
@@ -50,7 +51,7 @@ class Seller
         $sql = "INSERT INTO $this->table (name, email, password, image, address, description) VALUES (
             '" .$database->escape_value($this->name). "',
             '" .$database->escape_value($this->email). "',
-            '" .$database->escape_value($this->password). "',
+            '" .$database->escape_value(Bcrypt::hashPassword($this->password)). "',
             '" .$database->escape_value($this->image). "',
             '" .$database->escape_value($this->address). "',
             '" .$database->escape_value($this->description). "'
@@ -59,7 +60,7 @@ class Seller
         $seller_saved = $database->query($sql);
 
         if ($seller_saved) {
-            return $database->last_insert_id();
+            return true;
         } else {
             return false;
         }
