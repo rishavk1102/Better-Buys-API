@@ -27,13 +27,22 @@ class Seller
     // validating if params exists or not
     public function validate_params($value)
     {
-        // if (!empty($value)) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-
         return (!empty($value));
+    }
+
+    // to check if email is unique or not
+    public function check_unique_email()
+    {
+        global $database;
+
+        $this->email = trim(htmlspecialchars(strip_tags($this->email)));
+
+        $sql = "SELECT id FROM $this->table WHERE email = '" .$database->escape_value($this->email). "'";
+
+        $result = $database->query($sql);
+        $user_id = $database->fetch_row($result);
+
+        return empty($user_id);
     }
 
     // saving new data in our database
