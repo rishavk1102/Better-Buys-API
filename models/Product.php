@@ -29,6 +29,7 @@ class Product
         return (!empty($value));
     }
 
+    // storing product details
     public function add_product()
     {
         global $database;
@@ -55,4 +56,7 @@ class Product
             return false;
         }
     }
-}
+} // class ends
+
+// object
+$product = new Product();
