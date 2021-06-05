@@ -74,6 +74,31 @@ class Seller
             return false;
         }
     }
+
+    // login function
+    public function login()
+    {
+        global $database;
+
+        $this->email = trim(htmlspecialchars(strip_tags($this->email)));
+        $this->password = trim(htmlspecialchars(strip_tags($this->password)));
+
+        $sql = "SELECT * FROM $this->table WHERE email = '" .$database->escape_value($this->email). "'";
+
+        $result = $database->query($sql);
+        $seller = $database->fetch_row($result);
+
+        if (empty($seller)) {
+            return "Seller doesn't exist.";
+        } else {
+            if (Bcrypt::checkPassword($this->password, $seller['password'])) {
+                unset($seller['password']);
+                return $seller;
+            } else {
+                return "Password doesn't match.";
+            }
+        }
+    }
 } // Class Ends
 
 // Seller object
